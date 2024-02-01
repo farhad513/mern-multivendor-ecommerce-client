@@ -306,7 +306,7 @@ const Header = () => {
                   pathname === "/" ? "text-green-700" : "text-slate-700"
                 }`}
               >
-                HOme
+                Home
               </Link>
             </li>
             <li>
@@ -368,7 +368,7 @@ const Header = () => {
               </span>
             </div>
             <div className="flex justify-end flex-col gap-1">
-              <h2 className="text-xm font-medium">+880187-9221844</h2>
+              <h2 className="text-xm font-medium">+8801518-690471</h2>
               <span className="text-xs">Support 7/24 Hours</span>
             </div>
           </div>
@@ -472,7 +472,7 @@ const Header = () => {
                     </span>
                   </div>
                   <div className="flex justify-end flex-col gap-1">
-                    <h2 className="text-xm font-medium">+880187-9221844</h2>
+                    <h2 className="text-xm font-medium">+8801518-690471</h2>
                     <span className="text-xs ps-2">Support 7/24 Hours</span>
                   </div>
                 </div>
