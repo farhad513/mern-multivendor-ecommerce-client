@@ -12,7 +12,7 @@ export const user_register = createAsyncThunk(
       localStorage.setItem("userToken", data.token);
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error);
     }
   }
 );
@@ -27,7 +27,7 @@ export const user_login = createAsyncThunk(
       localStorage.setItem("userToken", data.token);
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error);
     }
   }
 );
