@@ -1,13 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../api/api";
-
+import axios from "axios";
+import { base_url } from "../../utils/config";
 export const add_friend = createAsyncThunk(
   "chat/add_friend",
-  async (info, { rejectWithValue, fulfillWithValue }) => {
+  async (info, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.post("/chat/user/add-user-friend", info, {
-        withCredentials: true,
-      });
+      const { data } = await axios.post(
+        `${base_url}/api/chat/user/add-user-friend`,
+        info,
+        config
+      );
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -17,11 +25,19 @@ export const add_friend = createAsyncThunk(
 
 export const send_message = createAsyncThunk(
   "chat/send_message",
-  async (info, { rejectWithValue, fulfillWithValue }) => {
+  async (info, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.post("/chat/user/send_message_seller", info, {
-        withCredentials: true,
-      });
+      const { data } = await axios.post(
+        `${base_url}/api/chat/user/send_message_seller`,
+        info,
+        config
+      );
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);

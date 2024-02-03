@@ -1,12 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../api/api";
+import { base_url } from "../../utils/config";
+import axios from "axios";
 export const add_to_card = createAsyncThunk(
   "card/add_to_card",
-  async (info, { rejectWithValue, fulfillWithValue }) => {
+  async (info, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.post("/home/product/card/add", info, {
-        withCredentials: true,
-      });
+      const { data } = await axios.post(
+        `${base_url}/api/home/product/card/add`,
+        info,
+        config
+      );
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -16,13 +25,17 @@ export const add_to_card = createAsyncThunk(
 
 export const get_products_card = createAsyncThunk(
   "card/get_products_card",
-  async (userId, { rejectWithValue, fulfillWithValue }) => {
+  async (userId, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.get(
-        `/home/product/get/card/products/${userId}`,
-        {
-          withCredentials: true,
-        }
+      const { data } = await axios.get(
+        `${base_url}/api/home/product/get/card/products/${userId}`,
+        config
       );
       return fulfillWithValue(data);
     } catch (error) {
@@ -32,13 +45,17 @@ export const get_products_card = createAsyncThunk(
 );
 export const delete_card_product = createAsyncThunk(
   "card/delete_card_product",
-  async (card_id, { rejectWithValue, fulfillWithValue }) => {
+  async (card_id, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.delete(
-        `/home/product/delete/card/${card_id}`,
-        {
-          withCredentials: true,
-        }
+      const { data } = await axios.delete(
+        `${base_url}/api/home/product/delete/card/${card_id}`,
+        config
       );
       return fulfillWithValue(data);
     } catch (error) {
@@ -49,13 +66,17 @@ export const delete_card_product = createAsyncThunk(
 
 export const quantity_increment = createAsyncThunk(
   "card/quantity_increment",
-  async (card_id, { rejectWithValue, fulfillWithValue }) => {
+  async (card_id, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.put(
-        `/home/product/quantity-increment/${card_id}`,
-        {
-          withCredentials: true,
-        }
+      const { data } = await axios.put(
+        `${base_url}/api/home/product/quantity-increment/${card_id}`,
+        config
       );
       return fulfillWithValue(data);
     } catch (error) {
@@ -66,13 +87,17 @@ export const quantity_increment = createAsyncThunk(
 
 export const quantity_decrement = createAsyncThunk(
   "card/quantity_decrement",
-  async (card_id, { rejectWithValue, fulfillWithValue }) => {
+  async (card_id, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.put(
-        `/home/product/quantity-decrement/${card_id}`,
-        {
-          withCredentials: true,
-        }
+      const { data } = await axios.put(
+        `${base_url}/api/home/product/quantity-decrement/${card_id}`,
+        config
       );
       return fulfillWithValue(data);
     } catch (error) {
@@ -83,11 +108,19 @@ export const quantity_decrement = createAsyncThunk(
 
 export const add_to_wishlist = createAsyncThunk(
   "wishlist/add_to_wishlist",
-  async (info, { rejectWithValue, fulfillWithValue }) => {
+  async (info, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.post("/home/product/wishlist/add", info, {
-        withCredentials: true,
-      });
+      const { data } = await axios.post(
+        `${base_url}/api/home/product/wishlist/add`,
+        info,
+        config
+      );
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -96,11 +129,18 @@ export const add_to_wishlist = createAsyncThunk(
 );
 export const get_products_wishlist = createAsyncThunk(
   "wishlist/get_products_wishlist",
-  async (userId, { rejectWithValue, fulfillWithValue }) => {
+  async (userId, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.get(`/home/get-wishlist-products/${userId}`, {
-        withCredentials: true,
-      });
+      const { data } = await axios.get(
+        `${base_url}/api/home/get-wishlist-products/${userId}`,
+        config
+      );
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -109,13 +149,17 @@ export const get_products_wishlist = createAsyncThunk(
 );
 export const delete_wishlist_product = createAsyncThunk(
   "wishlist/delete_wishlist_product",
-  async (wishlistId, { rejectWithValue, fulfillWithValue }) => {
+  async (wishlistId, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.delete(
-        `/home/product/delete/wishlist/${wishlistId}`,
-        {
-          withCredentials: true,
-        }
+      const { data } = await axios.delete(
+        `${base_url}/api/home/product/delete/wishlist/${wishlistId}`,
+        config
       );
       return fulfillWithValue(data);
     } catch (error) {

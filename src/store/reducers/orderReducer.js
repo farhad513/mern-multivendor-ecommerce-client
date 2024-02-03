@@ -1,15 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../api/api";
-
+import { base_url } from "../../utils/config";
+import axios from "axios";
 export const place_order = createAsyncThunk(
   "order/place_order",
   async (
     { price, products, shipping_fee, shippingInfo, items, userId, navigate },
-    { rejectWithValue, fulfillWithValue }
+    { rejectWithValue, fulfillWithValue, getState }
   ) => {
+    const { token } = getState().user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
       const { data } = await api.post(
-        "/home/order/place-order",
+        `${base_url}/api/home/order/place-order`,
         {
           price,
           products,
@@ -19,15 +25,13 @@ export const place_order = createAsyncThunk(
           userId,
           navigate,
         },
-        {
-          withCredentials: true,
-        }
+        config
       );
-      console.log(data);
       navigate("/payment", {
         state: { price: price + shipping_fee, items, orderId: data.orderId },
       });
-      return true;
+      // return true;
+      return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -36,13 +40,20 @@ export const place_order = createAsyncThunk(
 
 export const get_orders = createAsyncThunk(
   "order/get_orders",
-  async ({ userId, status }, { rejectWithValue, fulfillWithValue }) => {
+  async (
+    { userId, status },
+    { rejectWithValue, fulfillWithValue, getState }
+  ) => {
+    const { token } = getState().user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.get(
-        `/home/order/get-orders/${userId}/${status}`,
-        {
-          withCredentials: true,
-        }
+      const { data } = await axios.get(
+        `${base_url}/api/home/order/get-orders/${userId}/${status}`,
+        config
       );
       return fulfillWithValue(data);
     } catch (error) {
@@ -52,13 +63,17 @@ export const get_orders = createAsyncThunk(
 );
 export const get_order_details = createAsyncThunk(
   "order/get_order_details",
-  async (orderId, { rejectWithValue, fulfillWithValue }) => {
+  async (orderId, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.get(
-        `/home/order/get-order/details/${orderId}`,
-        {
-          withCredentials: true,
-        }
+      const { data } = await axios.get(
+        `${base_url}/api/home/order/get-order/details/${orderId}`,
+        config
       );
       return fulfillWithValue(data);
     } catch (error) {

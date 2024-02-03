@@ -1,12 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../api/api";
-
+import { base_url } from "../../utils/config";
+import axios from "axios";
 export const get_dashboard_data = createAsyncThunk(
   "dashboard/get_dashboard_data",
-  async (userId, { rejectWithValue, fulfillWithValue }) => {
+  async (userId, { rejectWithValue, fulfillWithValue, getState }) => {
+    const { token } = getState().user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const { data } = await api.get(
-        `/home/dashboard/get-dashboard-data/${userId}`
+      const { data } = await axios.get(
+        `${base_url}/api/home/dashboard/get-dashboard-data/${userId}`
       );
       return fulfillWithValue(data);
     } catch (error) {

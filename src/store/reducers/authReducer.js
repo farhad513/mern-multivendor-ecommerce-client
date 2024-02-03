@@ -1,29 +1,27 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../api/api";
 import jwt from "jwt-decode";
+import { base_url } from "../../utils/config";
+import axios from "axios";
 export const user_register = createAsyncThunk(
-  "auth/user_register",
+  "user/user_register",
   async (info, { rejectWithValue, fulfillWithValue }) => {
     console.log(info);
     try {
-      const { data } = await api.post("/user/register", info, {
-        withCredentials: true,
-      });
+      const { data } = await axios.post(`${base_url}/api/user/register`, info);
       localStorage.setItem("userToken", data.token);
       return fulfillWithValue(data);
     } catch (error) {
+      console.log(error);
       return rejectWithValue(error);
     }
   }
 );
 export const user_login = createAsyncThunk(
-  "auth/user_login",
+  "user/user_login",
   async (info, { rejectWithValue, fulfillWithValue }) => {
     console.log(info);
     try {
-      const { data } = await api.post("/user/login", info, {
-        withCredentials: true,
-      });
+      const { data } = await axios.post(`${base_url}/api/user/login`, info);
       localStorage.setItem("userToken", data.token);
       return fulfillWithValue(data);
     } catch (error) {
@@ -34,18 +32,25 @@ export const user_login = createAsyncThunk(
 const decodeToken = (token) => {
   if (token) {
     const userInfo = jwt(token);
-    return userInfo;
+    const expired = new Date(userInfo.exp * 1000);
+    if (new Date() > expired) {
+      localStorage.removeItem("userToken");
+      return "";
+    } else {
+      return userInfo;
+    }
   } else {
     return "";
   }
 };
 export const authReducer = createSlice({
-  name: "auth",
+  name: "user",
   initialState: {
     successMessage: "",
     errorMessage: "",
     loader: false,
     userInfo: decodeToken(localStorage.getItem("userToken")),
+    token: localStorage.getItem("userToken"),
   },
   reducers: {
     messageClear: (state, _) => {
@@ -69,6 +74,7 @@ export const authReducer = createSlice({
       state.successMessage = payload.message;
       state.loader = false;
       state.userInfo = userInfo;
+      state.token = payload.token;
     },
     [user_login.pending]: (state, _) => {
       state.loader = true;
@@ -82,6 +88,7 @@ export const authReducer = createSlice({
       state.successMessage = payload.message;
       state.loader = false;
       state.userInfo = userInfo;
+      state.token = payload.token;
     },
   },
 });
