@@ -16,7 +16,8 @@ import {
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRef } from "react";
-const socket = io("http://localhost:8080");
+import { base_url } from "../../utils/config";
+const socket = io(base_url);
 const Chat = () => {
   const dispatch = useDispatch();
   const { sellerId } = useParams();

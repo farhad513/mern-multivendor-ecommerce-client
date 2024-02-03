@@ -124,7 +124,7 @@ const Register = () => {
                   <a
                     target="_blank"
                     className="text-blue-500"
-                    href={"http://localhost:3001/register"}
+                    href={"https://robobitst-dashboard.vercel.app/register"}
                   >
                     register
                   </a>{" "}

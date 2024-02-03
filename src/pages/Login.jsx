@@ -109,7 +109,7 @@ const Login = () => {
                 <a
                   target="_blank"
                   className="text-blue-500"
-                  href={"http://localhost:3001/login"}
+                  href={"https://robobitst-dashboard.vercel.app/login"}
                 >
                   seller
                 </a>{" "}

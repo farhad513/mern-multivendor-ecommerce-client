@@ -12,7 +12,8 @@ export const get_dashboard_data = createAsyncThunk(
     };
     try {
       const { data } = await axios.get(
-        `${base_url}/api/home/dashboard/get-dashboard-data/${userId}`
+        `${base_url}/api/home/dashboard/get-dashboard-data/${userId}`,
+        config
       );
       return fulfillWithValue(data);
     } catch (error) {
