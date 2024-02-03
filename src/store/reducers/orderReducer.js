@@ -14,7 +14,7 @@ export const place_order = createAsyncThunk(
       },
     };
     try {
-      const { data } = await api.post(
+      const { data } = await axios.post(
         `${base_url}/api/home/order/place-order`,
         {
           price,
@@ -30,10 +30,10 @@ export const place_order = createAsyncThunk(
       navigate("/payment", {
         state: { price: price + shipping_fee, items, orderId: data.orderId },
       });
-      // return true;
-      return fulfillWithValue(data);
+      return true;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      // return rejectWithValue(error.response.data);
+      console.log(error.response.data);
     }
   }
 );
