@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { FadeLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import { messageClear, user_login } from "../store/reducers/authReducer";
-
 const Login = () => {
   const { loader, userInfo, successMessage, errorMessage } = useSelector(
     (state) => state.user
